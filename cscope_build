@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# generate cscope index files in current directory
+# the generated cscope index files also include go standard packages
+GOROOT='/usr/local/go'
+if [ $GOROOT = "" ]
+then
+    echo "GOROOT is not set"
+    exit 1
+fi
+
+find . -name "cscope*" -exec rm -rf {} \;
+#find $SR_CODE_BASE/snaproute/src/vendors/bcm/opennsl-3.1.0.8-odp/ -name "*.c" -print >> cscope.files
+#find $SR_CODE_BASE/snaproute/src/vendors/bcm/opennsl-3.1.0.8-odp/ -name "*.h" -print >> cscope.files
+find . -name "*.go" -print >> cscope.files
+find . -name "*.thrift" -print >> cscope.files
+#find . -name "*.c" -print >> cscope.files
+#find . -name "*.h" -print >> cscope.files
+find . -type f -and \( -name "*.c" \) >> cscope.files
+find . -type f -and \( -name "*.h" \) >> cscope.files
+if cscope -b -k; then
+    echo "Done"
+else
+    echo "Failed"
+    exit 1
+fi
+

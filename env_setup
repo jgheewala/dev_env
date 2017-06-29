@@ -1,0 +1,9 @@
+#!/bin/bash
+
+echo "setting snaproute code base"
+export SR_CODE_BASE=$(pwd)
+echo $SR_CODE_BASE
+echo "setting go path"
+export GOPATH=$SR_CODE_BASE/snaproute/:$SR_CODE_BASE/external/:$SR_CODE_BASE/generated/
+echo $GOPATH
+export PKG_CONFIG_PATH=$SR_CODE_BASE/build/arm/lib/pkgconfig/:$SR_CODE_BASE/build/x86_64/lib/pkgconfig/

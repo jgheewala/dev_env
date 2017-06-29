@@ -1,0 +1,12 @@
+#!/bin/bash
+if [ -z "$SR_CODE_BASE" ]; then
+    echo "Set SnapRoute Code Base before building tags"
+    exit -1
+fi
+echo "Deleting any pre-existing Tags"
+cd $SR_CODE_BASE
+find . -name "tags" -exec rm -rf {} \;
+echo "Building Tags"
+ctags -R --exclude="cscope.\*" --exclude="*.js" --exclude=test --exclude=opennsl-2.0.0.8-odp --exclude=.git --exclude=docs --exclude=opennsl-6.4.6.5-odp --exclude=opennsl-3.1.0.1-odp --sort=yes
+#ctags -R --exclude="cscope.\*" --exclude="*.js" --exclude=test --exclude=vendors --exclude=.git --exclude=docs --sort=yes
+echo "Done Building Ctags"
