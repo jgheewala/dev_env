@@ -31,4 +31,4 @@ mkdir .tmux
 cd .tmux
 git clone https://github.com/tmux-plugins/tmux-resurrect tmux-resurrect
 git clone  https://github.com/jimeh/tmux-themepack.git ~/.tmux-themepack
-
+cp ~/scripts/tmux-conf ~/.tmux.conf
