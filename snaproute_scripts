@@ -294,7 +294,7 @@ function mrg_branch {
 
 function copy_fs() {
     #scp $1 root@10.1.10.$2:$1
-    scp $1 root@192.168.100.$2:$1
+    scp $1 admin@192.168.100.$2:$1
 }
 
 function fs() {
@@ -302,14 +302,14 @@ function fs() {
     ssh root@192.168.100.$1
 }
 
-function cisco() {
+function switch() {
     ssh admin@192.168.100.$1
     #ssh admin@10.1.10.$1
 }
 
 function daemon_cp() {
-    scp $SR_CODE_BASE/snaproute/src/out/bin/$1 root@192.168.100.$2:/opt/flexswitch/bin/
-    #scp $SR_CODE_BASE/snaproute/src/out/bin/$1 root@10.1.10.$2:
+    scp $SR_CODE_BASE/snaproute/src/out/bin/$1 admin@192.168.100.$2:
+    #scp $SR_CODE_BASE/snaproute/src/out/bin/$1 root@192.168.100.$2:/opt/flexswitch/bin
 }
 
 function svr() {
@@ -332,10 +332,11 @@ function bcm_shell() {
 }
 
 function fs_cli() {
-    cd $SR_CODE_BASE/snaproute/src/apps/cli2
-    source env.sh
+    #cd $SR_CODE_BASE/snaproute/src/apps/cli2
+    #source env.sh
     #./snap_cli.py -s 10.1.10.$1
-    ./snap_cli.py -s 192.168.100.$1
+    #./snap_cli.py -s 192.168.100.$1
+    ssh cli@192.168.100.$1 -p2022
 }
 
 function gen_pkg_build() {
