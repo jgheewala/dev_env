@@ -1,7 +1,8 @@
 # set Ctrl-s as the default prefix key combination
 # and unbind C-b to free it up
-source-file "${HOME}/.tmux-themepack/powerline/block/cyan.tmuxtheme"
-#source-file "${HOME}/.tmux-themepack/basic.tmuxtheme"
+#source-file "${HOME}/.tmux-themepack/powerline/block/cyan.tmuxtheme"
+source-file "${HOME}/.tmux-themepack/basic.tmuxtheme"
+#source-file "${HOME}/.tmux-themepack/default.tmuxtheme
 set -g prefix C-s
 unbind-key C-b
 bind-key C-s send-prefix
@@ -65,7 +66,7 @@ set -g mouse on
 
 # colorize messages in the command line this is for prefix and entering a command for e.g :set synchronize-panes on
 set-option -g message-bg black #base02
-set-option -g message-fg brightred #orange
+set-option -g message-fg green #brightred #orange
 
 # ----------------------
 # Status Bar
@@ -114,5 +115,13 @@ set -g @resurrect-strategy-vim 'session'
 
 # for panes
 set -g @resurrect-capture-pane-contents 'on'
+
+# tmux selection color via mouse
+set-window-option -g mode-fg white
+set-window-option -g mode-bg blue
+
+# Current window status
+set -g window-status-current-bg green
+set -g window-status-current-fg white
 
 #unbind -n Tab
