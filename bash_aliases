@@ -1,0 +1,5 @@
+alias liteide='/usr/local/liteide/bin/liteide'
+alias tags='$SR_CODE_BASE/tags'
+alias ftags='ctags -R --exclude="cscope.\*" --exclude="*.js" --exclude="searchindex.js" --exclude=test --exclude=vendors --exclude=.git'
+alias c='cscope -d'
+alias mkcsc='~/scripts/cscope_build'
