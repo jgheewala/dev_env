@@ -5,15 +5,6 @@ call pathogen#infect()
 
 syntax enable
 filetype plugin on  
-let g:go_disable_autoinstall = 0
-
-" Highlight
-let g:go_highlight_functions = 1  
-let g:go_highlight_methods = 1  
-let g:go_highlight_structs = 1  
-let g:go_highlight_operators = 1 
-let g:go_highlight_interfaces = 1
-let g:go_highlight_build_constraints = 1  
 
 " nerd tree
 
@@ -23,10 +14,10 @@ let g:go_highlight_build_constraints = 1
 "autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 "autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 "function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
-"   exec 'autocmd filetype nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
-"    exec 'autocmd filetype nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
+ "  exec 'autocmd filetype nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
+  "  exec 'autocmd filetype nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
 "endfunction
-"
+
 "call NERDTreeHighlightFile('jade', 'green', 'none', 'green', '#151515')
 "call NERDTreeHighlightFile('ini', 'yellow', 'none', 'yellow', '#151515')
 "call NERDTreeHighlightFile('md', 'blue', 'none', '#3366FF', '#151515')
@@ -42,8 +33,8 @@ let g:go_highlight_build_constraints = 1
 "call NERDTreeHighlightFile('php', 'Magenta', 'none', '#ff00ff', '#151515')
 "let g:NERDTreeDirArrowExpandable = '▸'
 "let g:NERDTreeDirArrowCollapsible = '▾'
-"let g:NERDTreeWinPos = "right"
-"let g:NERDTreeWinSize=70
+let g:NERDTreeWinPos = "right"
+"let g:NERDTreeWinSize=50
 "let g:NERDTreeIndicatorMapCustom = {
 "    \ "Modified"  : "✹",
 "    \ "Staged"    : "✚",
@@ -58,7 +49,7 @@ let g:go_highlight_build_constraints = 1
 
 " enable neocomplete 
 let g:neocomplete#enable_omni_fallback=0
-"let g:neocomplete#enable_at_startup = 1
+let g:neocomplete#enable_at_startup = 1
 
 " tabbar.vim customization. Choose the buffer on single mouse click
 let g:Tb_UseSingleClick = 1
@@ -99,7 +90,7 @@ set wildmenu
 set tildeop
 
 " paste with no auto-indent
-set paste
+" set paste
 " For switching between files inside gvim
 map <C-n> : bn<CR>
 map <C-p> : bp<CR>
@@ -198,7 +189,6 @@ map <F3>    :x<CR>
 map <F4>    :q<CR>
 
 " map <F5>    :!gcc %<CR>
-
 map <F7>    :cn<CR>
 map <F8>    :cp<CR>
 map <F9>    :cf /vob/ios/sys/obj-4k-
@@ -361,7 +351,49 @@ let winManagerWindowLayout = 'FileExplorer|TagList'
 
 let MRU_Max_Entries=30
 let g:molokai_original=1
-colorscheme proton
-"colorscheme molokai
+"colorscheme proton
+colorscheme molokai
 "colorscheme solarized
 
+" go related changes
+let g:go_fmt_command = "goimports"
+" go language
+let s:tlist_def_go_settings = 'go;g:enum;s:struct;u:union;t:type;' .
+                           \ 'v:variable;f:function'
+let g:go_disable_autoinstall = 0
+
+" Highlight
+let g:go_highlight_functions = 1  
+let g:go_highlight_function_calls = 1  
+let g:go_highlight_structs = 1  
+let g:go_highlight_operators = 1 
+let g:go_highlight_interfaces = 1
+let g:go_highlight_build_constraints = 1  
+let g:go_def_mapping_enabled=1
+let g:tagbar_type_go = {
+  \ 'ctagstype' : 'go',
+  \ 'kinds'     : [
+    \ 'p:package',
+    \ 'i:imports:1',
+    \ 'c:constants',
+    \ 'v:variables',
+    \ 't:types',
+    \ 'n:interfaces',
+    \ 'w:fields',
+    \ 'e:embedded',
+    \ 'm:methods',
+    \ 'r:constructor',
+    \ 'f:functions'
+  \ ],
+  \ 'sro' : '.',
+  \ 'kind2scope' : {
+    \ 't' : 'ctype',
+    \ 'n' : 'ntype'
+  \ },
+  \ 'scope2kind' : {
+    \ 'ctype' : 't',
+    \ 'ntype' : 'n'
+  \ },
+  \ 'ctagsbin'  : 'gotags',
+  \ 'ctagsargs' : '-sort -silent'
+\ }
