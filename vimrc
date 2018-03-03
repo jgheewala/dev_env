@@ -33,7 +33,9 @@ filetype plugin on
 "call NERDTreeHighlightFile('php', 'Magenta', 'none', '#ff00ff', '#151515')
 "let g:NERDTreeDirArrowExpandable = '▸'
 "let g:NERDTreeDirArrowCollapsible = '▾'
-let g:NERDTreeWinPos = "right"
+
+" reason for keeping nerd tree on left is so that tag bar can be on right
+let g:NERDTreeWinPos = "left"
 "let g:NERDTreeWinSize=50
 "let g:NERDTreeIndicatorMapCustom = {
 "    \ "Modified"  : "✹",
@@ -50,7 +52,7 @@ let g:NERDTreeWinPos = "right"
 " enable neocomplete 
 let g:neocomplete#enable_omni_fallback=0
 let g:neocomplete#enable_at_startup = 1
-
+let g:go_version_warning = 0
 " tabbar.vim customization. Choose the buffer on single mouse click
 let g:Tb_UseSingleClick = 1
 
@@ -98,6 +100,8 @@ map <C-p> : bp<CR>
 " Open nerdtree browers
 map <C-a> :NERDTreeToggle<CR>
 
+" Open Tagbad brower
+nmap <F8> :TagbarToggle<CR>
 
 set autoindent
 set autoread
@@ -189,8 +193,8 @@ map <F3>    :x<CR>
 map <F4>    :q<CR>
 
 " map <F5>    :!gcc %<CR>
-map <F7>    :cn<CR>
-map <F8>    :cp<CR>
+" map <F7>    :cn<CR>
+" map <F8>    :cp<CR>
 map <F9>    :cf /vob/ios/sys/obj-4k-
 
 map <S-F1>  :1b<CR>
@@ -370,30 +374,3 @@ let g:go_highlight_operators = 1
 let g:go_highlight_interfaces = 1
 let g:go_highlight_build_constraints = 1  
 let g:go_def_mapping_enabled=1
-let g:tagbar_type_go = {
-  \ 'ctagstype' : 'go',
-  \ 'kinds'     : [
-    \ 'p:package',
-    \ 'i:imports:1',
-    \ 'c:constants',
-    \ 'v:variables',
-    \ 't:types',
-    \ 'n:interfaces',
-    \ 'w:fields',
-    \ 'e:embedded',
-    \ 'm:methods',
-    \ 'r:constructor',
-    \ 'f:functions'
-  \ ],
-  \ 'sro' : '.',
-  \ 'kind2scope' : {
-    \ 't' : 'ctype',
-    \ 'n' : 'ntype'
-  \ },
-  \ 'scope2kind' : {
-    \ 'ctype' : 't',
-    \ 'ntype' : 'n'
-  \ },
-  \ 'ctagsbin'  : 'gotags',
-  \ 'ctagsargs' : '-sort -silent'
-\ }
