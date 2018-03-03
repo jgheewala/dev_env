@@ -101,7 +101,7 @@ map <C-p> : bp<CR>
 map <C-a> :NERDTreeToggle<CR>
 
 " Open Tagbad brower
-nmap <F8> :TagbarToggle<CR>
+nmap <C-d> :TagbarToggle<CR>
 
 set autoindent
 set autoread
@@ -336,7 +336,6 @@ let LID_Cmd = 'lid32'
 " map <Leader>u :UMiniBufExplorer<cr>
 map <Leader>t :TMiniBufExplorer<cr>
 "let Tlist_Ctags_Cmd = '/usr/local/bin/ctags'
-let g:miniBufExplUseSingleClick = 1
 set tags=tags;
 
 "autocmd Filetype mail set tw=72 et nocindent noai formatoptions=tcq
@@ -345,6 +344,7 @@ set tags=tags;
 set maxmem=20971520
 set noswapfile
 
+let g:miniBufExplUseSingleClick = 1
 let g:miniBufExplMapWindowNavVim = 1
 let g:miniBufExplMapWindowNavArrows = 1
 let g:miniBufExplMapCTabSwitchBufs = 1
@@ -355,9 +355,7 @@ let winManagerWindowLayout = 'FileExplorer|TagList'
 
 let MRU_Max_Entries=30
 let g:molokai_original=1
-"colorscheme proton
 colorscheme molokai
-"colorscheme solarized
 
 " go related changes
 let g:go_fmt_command = "goimports"
