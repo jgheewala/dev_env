@@ -356,6 +356,7 @@ let winManagerWindowLayout = 'FileExplorer|TagList'
 let MRU_Max_Entries=30
 let g:molokai_original=1
 colorscheme molokai
+let g:airline_theme='molokai'
 
 " go related changes
 let g:go_fmt_command = "goimports"
