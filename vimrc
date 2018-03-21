@@ -2,22 +2,42 @@
 " Also switch on highlighting the last used search pattern.
 
 call pathogen#infect()
-
 syntax enable
 filetype plugin on  
 
+" vim-devicon begins
+set encoding=utf8
+" Highlight
+let g:go_highlight_functions = 1  
+let g:go_highlight_function_calls = 1  
+let g:go_highlight_structs = 1  
+let g:go_highlight_operators = 1 
+let g:go_highlight_interfaces = 1
+let g:go_highlight_build_constraints = 1  
+let g:go_def_mapping_enabled=1
+
+let g:tagbar_left=1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_powerline_fonts=1
+let g:airline#extensions#whitespace#enabled = 1
+let g:airline_theme='dark'
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_sep = '|'
+let g:airline_highlighting_cache = 1
 " nerd tree
 
-"autocmd VimEnter * NERDTree
-"autocmd VimEnter * wincmd p
-"autocmd StdinReadPre * let s:std_in=1
-"autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-"autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-"function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
- "  exec 'autocmd filetype nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
-  "  exec 'autocmd filetype nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
-"endfunction
+autocmd VimEnter * NERDTree
+autocmd VimEnter * wincmd p
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
+  exec 'autocmd filetype nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
+  exec 'autocmd filetype nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
+  exec 'autocmd FileType nerdtree setlocal nolist'
+endfunction
 
+"let g:NERDTreeSyntaxEnabledExtensions = ['c', 'h', 'c++', 'go']
 "call NERDTreeHighlightFile('jade', 'green', 'none', 'green', '#151515')
 "call NERDTreeHighlightFile('ini', 'yellow', 'none', 'yellow', '#151515')
 "call NERDTreeHighlightFile('md', 'blue', 'none', '#3366FF', '#151515')
@@ -31,11 +51,22 @@ filetype plugin on
 "call NERDTreeHighlightFile('coffee', 'Red', 'none', 'red', '#151515')
 "call NERDTreeHighlightFile('js', 'Red', 'none', '#ffa500', '#151515')
 "call NERDTreeHighlightFile('php', 'Magenta', 'none', '#ff00ff', '#151515')
+"call NERDTreeHighlightFile('go', 'Red', 'none', '#ffa500', '#151515')
+"let g:NERDTreeDisablePatternMatchHighlight = 1
 "let g:NERDTreeDirArrowExpandable = '▸'
 "let g:NERDTreeDirArrowCollapsible = '▾'
+"let g:NERDTreeFileExtensionHighlightFullName = 1
+"let g:NERDTreeExactMatchHighlightFullName = 1
+"let g:NERDTreePatternMatchHighlightFullName = 1
+"let g:NERDTreeLimitedSyntax = 1
+"let g:NERDTreeSyntaxDisableDefaultExtensions = 1
+"let g:NERDTreeDisablePatternMatchHighlight = 1
+"let g:NERDTreeSyntaxEnabledExtensions = ['c', 'h', 'c++', 'php', 'rb', 'js', 'css', 'go']
+"let g:NERDTreeHighlightCursorline = 1
 
 " reason for keeping nerd tree on left is so that tag bar can be on right
-let g:NERDTreeWinPos = "left"
+"let g:NERDTreeWinPos = "left"
+let g:NERDTreeWinPos = "right"
 "let g:NERDTreeWinSize=50
 "let g:NERDTreeIndicatorMapCustom = {
 "    \ "Modified"  : "✹",
@@ -49,9 +80,20 @@ let g:NERDTreeWinPos = "left"
 "    \ "Unknown"   : "?"
 "    \ }
 
+" NERDTreeTabs begins
+" let g:nerdtree_tabs_focus_on_files = 1
+" let g:nerdtree_tabs_smart_startup_focus = 2
+" " NERDTreeTabs ends
+"
+"" vim-NERDTree-syntax-hightlight begins
+"let g:NERDTreeExtensionHighlightColor = {} " this line is needed to avoid error
+"let g:NERDTreeExtensionHighlightColor['md'] = "CC6666"
+" vim-NERDTree-syntax-highlight ends
+" "
+
 " enable neocomplete 
-let g:neocomplete#enable_omni_fallback=0
-let g:neocomplete#enable_at_startup = 1
+"let g:neocomplete#enable_omni_fallback=0
+"let g:neocomplete#enable_at_startup = 1
 let g:go_version_warning = 0
 " tabbar.vim customization. Choose the buffer on single mouse click
 let g:Tb_UseSingleClick = 1
@@ -60,6 +102,31 @@ let g:Tb_UseSingleClick = 1
 let Tlist_Use_SingleClick = 1
 
 set selectmode=mouse
+
+if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+endif
+
+  " unicode symbols
+  let g:airline_left_sep = '»'
+  let g:airline_left_sep = '▶'
+  let g:airline_right_sep = '«'
+  let g:airline_right_sep = '◀'
+  let g:airline_symbols.crypt = '🔒 '
+  let g:airline_symbols.linenr = '☰'
+  let g:airline_symbols.linenr = '␊'
+  let g:airline_symbols.linenr = '␤'
+  let g:airline_symbols.linenr = '¶'
+  let g:airline_symbols.maxlinenr = ''
+  let g:airline_symbols.maxlinenr = '㏑'
+  let g:airline_symbols.branch = '⎇'
+  let g:airline_symbols.paste = 'ρ'
+  let g:airline_symbols.paste = 'Þ'
+  let g:airline_symbols.paste = '∥'
+  let g:airline_symbols.spell = 'Ꞩ'
+  let g:airline_symbols.notexists = '∄'
+  let g:airline_symbols.whitespace = 'Ξ'
+
 
 if &t_Co > 2 || has("gui_running")
 "  set background=light
@@ -231,51 +298,6 @@ map <Leader>\ :files<CR>
 noremap <C-G> 2<C-G>
 
 
-"   CScope definitions
-"if has('cscope')
-" set cscopetag cscopeverbose
-
- " if has('quickfix')
- "   set cscopequickfix=s-,c-,d-,i-,t-,e-
-"  endif
-
-"  cnoreabbrev csa cs add
-"  cnoreabbrev csf cs find
-"  cnoreabbrev csk cs kill
-"  cnoreabbrev csr cs reset
-"  cnoreabbrev css cs show
-"  cnoreabbrev csh cs help
-"
-"  command -nargs=0 Cscope cs add $VIMSRC/src/cscope.out $VIMSRC/src
-"endif
-
-"if has("cscope")
-"        set csprg=/router/bin/cscope
-"        set csto=1                      " Search tag files before using cscope.
-""       set nocsverb                    " No verbose
-"        set csverb                      " Turn on verbose now
-
-        " Use either cst or the other mappings below.
-        " set cst                         " Use cscope for tag related commands.
-
-"        nmap <Leader>K :cstag <C-R>=expand("<cword>")<CR><CR>
-"        map <C-_> :cstag <C-R>=expand("<cword>")<CR><CR>
-"        " Find this definition
-"        map g<C-]> :cs find g <C-R>=expand("<cword>")<CR><CR>
-"        " Function calling this one
-"        map g<C-\> :cs find c <C-R>=expand("<cword>")<CR><CR>
-"        " Find this file.
-"        map g<C-f> :cs find f <C-R>=expand("<cword>")<CR><CR>
-"        map g<C-d> :cs find s <C-R>=expand("<cword>")<CR><CR>
-"
-"        " misc
-"        map <C-K>     :cs add /vob/ios/sys /vob/ios/sys<CR>
-"
-"        cmap csadd    cscope add /vob/ios/sys /vob/ios/sys
-"        cmap gf       cs find f
-"        cmap csf      cs find
-"endif
-
 "   When using gf, return to same line and column
 noremap gf gf'"
 
@@ -334,7 +356,7 @@ let LID_Cmd = 'lid32'
 " map <Leader>m :MiniBufExplorer<cr>
 " map <Leader>c :CMiniBufExplorer<cr>
 " map <Leader>u :UMiniBufExplorer<cr>
-map <Leader>t :TMiniBufExplorer<cr>
+" map <Leader>t :TMiniBufExplorer<cr>
 "let Tlist_Ctags_Cmd = '/usr/local/bin/ctags'
 set tags=tags;
 
@@ -344,11 +366,11 @@ set tags=tags;
 set maxmem=20971520
 set noswapfile
 
-let g:miniBufExplUseSingleClick = 1
-let g:miniBufExplMapWindowNavVim = 1
-let g:miniBufExplMapWindowNavArrows = 1
-let g:miniBufExplMapCTabSwitchBufs = 1
-let g:miniBufExplModSelTarget = 1
+"let g:miniBufExplUseSingleClick = 1
+"let g:miniBufExplMapWindowNavVim = 1
+"let g:miniBufExplMapWindowNavArrows = 1
+"let g:miniBufExplMapCTabSwitchBufs = 1
+"let g:miniBufExplModSelTarget = 1
 
 let winManagerWidth = 30
 let winManagerWindowLayout = 'FileExplorer|TagList'
@@ -356,7 +378,6 @@ let winManagerWindowLayout = 'FileExplorer|TagList'
 let MRU_Max_Entries=30
 let g:molokai_original=1
 colorscheme molokai
-let g:airline_theme='molokai'
 
 " go related changes
 let g:go_fmt_command = "goimports"
@@ -365,11 +386,3 @@ let s:tlist_def_go_settings = 'go;g:enum;s:struct;u:union;t:type;' .
                            \ 'v:variable;f:function'
 let g:go_disable_autoinstall = 0
 
-" Highlight
-let g:go_highlight_functions = 1  
-let g:go_highlight_function_calls = 1  
-let g:go_highlight_structs = 1  
-let g:go_highlight_operators = 1 
-let g:go_highlight_interfaces = 1
-let g:go_highlight_build_constraints = 1  
-let g:go_def_mapping_enabled=1
