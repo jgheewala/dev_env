@@ -1,0 +1,8 @@
+#!/bin/bash
+
+echo "setting snaproute code base"
+export CODE_BASE=$(pwd)
+echo $CODE_BASE
+echo "setting go path"
+export GOPATH=$CODE_BASE
+echo $GOPATH
