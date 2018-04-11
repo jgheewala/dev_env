@@ -7,6 +7,9 @@ filetype plugin on
 
 " vim-devicon begins
 set encoding=utf8
+"------------------------------------------------------------------------------
+"" Vim-go
+"------------------------------------------------------------------------------
 " Highlight
 let g:go_highlight_functions = 1  
 let g:go_highlight_function_calls = 1  
@@ -16,7 +19,7 @@ let g:go_highlight_interfaces = 1
 let g:go_highlight_build_constraints = 1  
 let g:go_def_mapping_enabled=1
 
-let g:tagbar_left=1
+let g:tagbar_left=0
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts=1
 let g:airline#extensions#whitespace#enabled = 1
@@ -24,7 +27,20 @@ let g:airline_theme='dark'
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline_highlighting_cache = 1
-" nerd tree
+"------------------------------------------------------------------------------
+"" NERDTree
+"------------------------------------------------------------------------------
+"
+"" General properties
+let NERDTreeDirArrows=1
+let NERDTreeMinimalUI=1
+let NERDTreeIgnore=['\.o$', '\.pyc$', '\.php\~$']
+let NERDTreeWinSize = 35
+
+" Make sure that when NT root is changed, Vim's pwd is also updated
+let NERDTreeChDirMode = 2
+let NERDTreeShowLineNumbers = 1
+let NERDTreeAutoCenter = 1
 
 autocmd VimEnter * NERDTree
 autocmd VimEnter * wincmd p
@@ -37,36 +53,12 @@ function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
   exec 'autocmd FileType nerdtree setlocal nolist'
 endfunction
 
-"let g:NERDTreeSyntaxEnabledExtensions = ['c', 'h', 'c++', 'go']
-"call NERDTreeHighlightFile('jade', 'green', 'none', 'green', '#151515')
-"call NERDTreeHighlightFile('ini', 'yellow', 'none', 'yellow', '#151515')
-"call NERDTreeHighlightFile('md', 'blue', 'none', '#3366FF', '#151515')
-"call NERDTreeHighlightFile('yml', 'yellow', 'none', 'yellow', '#151515')
-"call NERDTreeHighlightFile('config', 'yellow', 'none', 'yellow', '#151515')
-"call NERDTreeHighlightFile('conf', 'yellow', 'none', 'yellow', '#151515')
-"call NERDTreeHighlightFile('json', 'yellow', 'none', 'yellow', '#151515')
-"call NERDTreeHighlightFile('html', 'yellow', 'none', 'yellow', '#151515')
-"call NERDTreeHighlightFile('styl', 'cyan', 'none', 'cyan', '#151515')
-"call NERDTreeHighlightFile('css', 'cyan', 'none', 'cyan', '#151515')
-"call NERDTreeHighlightFile('coffee', 'Red', 'none', 'red', '#151515')
-"call NERDTreeHighlightFile('js', 'Red', 'none', '#ffa500', '#151515')
-"call NERDTreeHighlightFile('php', 'Magenta', 'none', '#ff00ff', '#151515')
-"call NERDTreeHighlightFile('go', 'Red', 'none', '#ffa500', '#151515')
-"let g:NERDTreeDisablePatternMatchHighlight = 1
-"let g:NERDTreeDirArrowExpandable = '▸'
-"let g:NERDTreeDirArrowCollapsible = '▾'
-"let g:NERDTreeFileExtensionHighlightFullName = 1
-"let g:NERDTreeExactMatchHighlightFullName = 1
-"let g:NERDTreePatternMatchHighlightFullName = 1
-"let g:NERDTreeLimitedSyntax = 1
-"let g:NERDTreeSyntaxDisableDefaultExtensions = 1
-"let g:NERDTreeDisablePatternMatchHighlight = 1
-"let g:NERDTreeSyntaxEnabledExtensions = ['c', 'h', 'c++', 'php', 'rb', 'js', 'css', 'go']
-"let g:NERDTreeHighlightCursorline = 1
+" Open nerdtree browers
+map <C-a> :NERDTreeToggle<CR>
 
 " reason for keeping nerd tree on left is so that tag bar can be on right
-"let g:NERDTreeWinPos = "left"
-let g:NERDTreeWinPos = "right"
+let g:NERDTreeWinPos = "left"
+"let g:NERDTreeWinPos = "right"
 "let g:NERDTreeWinSize=50
 "let g:NERDTreeIndicatorMapCustom = {
 "    \ "Modified"  : "✹",
@@ -80,20 +72,6 @@ let g:NERDTreeWinPos = "right"
 "    \ "Unknown"   : "?"
 "    \ }
 
-" NERDTreeTabs begins
-" let g:nerdtree_tabs_focus_on_files = 1
-" let g:nerdtree_tabs_smart_startup_focus = 2
-" " NERDTreeTabs ends
-"
-"" vim-NERDTree-syntax-hightlight begins
-"let g:NERDTreeExtensionHighlightColor = {} " this line is needed to avoid error
-"let g:NERDTreeExtensionHighlightColor['md'] = "CC6666"
-" vim-NERDTree-syntax-highlight ends
-" "
-
-" enable neocomplete 
-"let g:neocomplete#enable_omni_fallback=0
-"let g:neocomplete#enable_at_startup = 1
 let g:go_version_warning = 0
 " tabbar.vim customization. Choose the buffer on single mouse click
 let g:Tb_UseSingleClick = 1
@@ -107,25 +85,25 @@ if !exists('g:airline_symbols')
     let g:airline_symbols = {}
 endif
 
-  " unicode symbols
-  let g:airline_left_sep = '»'
-  let g:airline_left_sep = '▶'
-  let g:airline_right_sep = '«'
-  let g:airline_right_sep = '◀'
-  let g:airline_symbols.crypt = '🔒 '
-  let g:airline_symbols.linenr = '☰'
-  let g:airline_symbols.linenr = '␊'
-  let g:airline_symbols.linenr = '␤'
-  let g:airline_symbols.linenr = '¶'
-  let g:airline_symbols.maxlinenr = ''
-  let g:airline_symbols.maxlinenr = '㏑'
-  let g:airline_symbols.branch = '⎇'
-  let g:airline_symbols.paste = 'ρ'
-  let g:airline_symbols.paste = 'Þ'
-  let g:airline_symbols.paste = '∥'
-  let g:airline_symbols.spell = 'Ꞩ'
-  let g:airline_symbols.notexists = '∄'
-  let g:airline_symbols.whitespace = 'Ξ'
+" unicode symbols
+let g:airline_left_sep = '»'
+let g:airline_left_sep = '▶'
+let g:airline_right_sep = '«'
+let g:airline_right_sep = '◀'
+let g:airline_symbols.crypt = '🔒 '
+let g:airline_symbols.linenr = '☰'
+let g:airline_symbols.linenr = '␊'
+let g:airline_symbols.linenr = '␤'
+let g:airline_symbols.linenr = '¶'
+let g:airline_symbols.maxlinenr = ''
+let g:airline_symbols.maxlinenr = '㏑'
+let g:airline_symbols.branch = '⎇'
+let g:airline_symbols.paste = 'ρ'
+let g:airline_symbols.paste = 'Þ'
+let g:airline_symbols.paste = '∥'
+let g:airline_symbols.spell = 'Ꞩ'
+let g:airline_symbols.notexists = '∄'
+let g:airline_symbols.whitespace = 'Ξ'
 
 
 if &t_Co > 2 || has("gui_running")
@@ -163,12 +141,6 @@ set tildeop
 " For switching between files inside gvim
 map <C-n> : bn<CR>
 map <C-p> : bp<CR>
-
-" Open nerdtree browers
-map <C-a> :NERDTreeToggle<CR>
-
-" Open Tagbad brower
-nmap <C-d> :TagbarToggle<CR>
 
 set autoindent
 set autoread
@@ -297,80 +269,34 @@ map <Leader>\ :files<CR>
 "   always show the buffernumber when using ^G
 noremap <C-G> 2<C-G>
 
-
-"   When using gf, return to same line and column
-noremap gf gf'"
-
-iabbr msb <Home>/* --msr: changes begin <C-R>=strftime("%c")<CR> */
-iabbr mse <Home>/* --msr: changes end <C-R>=strftime("%c")<CR> */
-iabbr tbd /* --msr TODO: 
-
-cabbr  ct !cleartool 
-
-
-"   Timestamps
-"   date short:                                 971120
- iab Yds    <C-R>=strftime("%y%m%d")<CR>
-"   date long:                                  Thu 20 Nov 1997
- iab Ydl    <C-R>=strftime("%a %d %b %Y")<CR>
-"   date and time short:                        971120 02:27:51 
- iab Ydts   <C-R>=strftime("%y%m%d %H:%M:%S")<CR>
-"   date and time long:                         Thu Nov 20 02:28:05 1997
- iab Ydtl   <C-R>=strftime("%c")<CR>
-"   Now a mapping for updating a "Last update: " entry (from bottom):
- nmap ,LU   G?[Ll]ast [Uu]pdate:\\s\\+?e<CR>lC<C-R>=strftime("%c")<CR><ESC>
-"
-"   The alphabet
- iab Yalpha abcdefghijklmnopqrstuvwxyz
- iab YALPHA ABCDEFGHIJKLMNOPQRSTUVWXYZ
-"
-"   The didgits
- iab Ydigit 1234567890
- iab Yruler 1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
-
-" Location of the ctags shipped with VIM
-" let VimCtags = "/usr/bin/ctags"
-
-" let sfname = "/tmp/" . $USER . "_vim_func"
-" let cmd_append = VimCtags . " --format=0 --c-types=f -u -f - -L - | awk '{printf \"execute \\\"nmenu \\\" . escape(\\\"F&unctions.\" $1;j=index($0, $3); print \" :0 \" substr($0, j, length($0) - j) \"<CR>\\\", \\\"*\\\")\";}' > " . sfname
-
-" F5: Add a fortune and advance to the next one
-" mX			mark where we are
-" :sp ~/.fortunes<CR>	open a window on ~/.fortunes
-" d/^--/<CR>		delete until the next line starting with "--"
-" Gp			Go to the end and put the just deleted text there
-" :wq<CR>		Write the ~/.fortunes file and close the window
-" 'XG			Go to the last line of the original file
-" A<CR><Esc>		Add an empty line
-" p			put the fortune text
-" `X			return to where we started
-
-map <F5> mX:sp ~/.fortunes<CR>d/^--/<CR>Gp:wq<CR>'XGA<CR><Esc>p`X
-"autocmd BufEnter *.c,*.h vertical resize 80
-" autocmd WinEnter *.c,*.h vertical set columns=161
-
-nnoremap <silent> <F3> :Lid <C-R><C-W><CR>
-let LID_Cmd = 'lid32'
-
 " Mini explorer stuff
 " map <Leader>m :MiniBufExplorer<cr>
 " map <Leader>c :CMiniBufExplorer<cr>
 " map <Leader>u :UMiniBufExplorer<cr>
 " map <Leader>t :TMiniBufExplorer<cr>
 "let Tlist_Ctags_Cmd = '/usr/local/bin/ctags'
-set tags=tags;
-
-"autocmd Filetype mail set tw=72 et nocindent noai formatoptions=tcq
-
-" to eliminate swap file creation
-set maxmem=20971520
-set noswapfile
-
 "let g:miniBufExplUseSingleClick = 1
 "let g:miniBufExplMapWindowNavVim = 1
 "let g:miniBufExplMapWindowNavArrows = 1
 "let g:miniBufExplMapCTabSwitchBufs = 1
 "let g:miniBufExplModSelTarget = 1
+
+set tags=tags;
+" to eliminate swap file creation
+set maxmem=20971520
+set noswapfile
+" Allow smarter completion by infering the case
+set infercase
+" Ignore case when searching
+set ignorecase
+" When searching try to be smart about cases
+set smartcase
+" Makes search act like search in modern browsers
+set incsearch
+" Don't redraw while executing macros (good performance config)
+set lazyredraw
+" Show matching brackets when text indicator is over them
+set showmatch
 
 let winManagerWidth = 30
 let winManagerWindowLayout = 'FileExplorer|TagList'
@@ -386,3 +312,5 @@ let s:tlist_def_go_settings = 'go;g:enum;s:struct;u:union;t:type;' .
                            \ 'v:variable;f:function'
 let g:go_disable_autoinstall = 0
 
+" Open Tagbar brower
+nmap <C-d> :TagbarToggle<CR>
