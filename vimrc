@@ -8,22 +8,64 @@ filetype plugin on
 " vim-devicon begins
 set encoding=utf8
 "------------------------------------------------------------------------------
+"" Web-Dev Icons
+"------------------------------------------------------------------------------
+let g:webdevicons_enable = 0
+" adding the flags to NERDTree
+let g:webdevicons_enable_nerdtree = 1
+" adding the custom source to unite
+let g:webdevicons_enable_unite = 1
+" adding to vim-airline's tabline
+let g:webdevicons_enable_airline_tabline = 1
+" adding to vim-airline's statusline
+let g:webdevicons_enable_airline_statusline = 1
+" whether or not to show the nerdtree brackets around flags
+let g:webdevicons_conceal_nerdtree_brackets = 1
+" Force extra padding in NERDTree so that the filetype icons line up vertically
+let g:WebDevIconsNerdTreeGitPluginForceVAlign = 1
+let g:WebDevIconsOS = 'Darwin'
+let g:WebDevIconsUnicodeDecorateFolderNodes = 1
+let g:DevIconsEnableFoldersOpenClose = 1
+let g:WebDevIconsUnicodeDecorateFileNodesDefaultSymbol='å'
+let g:WebDevIconsUnicodeDecorateFileNodes = 1
+" use double-width(1) or single-width(0) glyphs
+" only manipulates padding, has no effect on terminal or set(guifont) font
+let g:WebDevIconsUnicodeGlyphDoubleWidth = 1
+" the amount of space to use after the glyph character (default ' ')
+let g:WebDevIconsNerdTreeAfterGlyphPadding = '  '
+" Adding the custom source to denite
+let g:webdevicons_enable_denite = 1
+" set a byte character marker (BOM) utf-8 symbol when retrieving file encoding
+" disabled by default with no value
+let g:WebDevIconsUnicodeByteOrderMarkerDefaultSymbol = '[]'
+
+"------------------------------------------------------------------------------
 "" Vim-go
 "------------------------------------------------------------------------------
 " Highlight
-let g:go_highlight_functions = 1  
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
 let g:go_highlight_function_calls = 1  
 let g:go_highlight_structs = 1  
 let g:go_highlight_operators = 1 
 let g:go_highlight_interfaces = 1
 let g:go_highlight_build_constraints = 1  
 let g:go_def_mapping_enabled=1
+let g:go_highlight_fields = 1
+let g:go_highlight_extra_types = 1
+"let g:go_metalinter_autosave = 1
+"let g:go_metalinter_deadline = "3s"
+" go related changes
+let g:go_fmt_command = "goimports"
+" go language
+let s:tlist_def_go_settings = 'go;g:enum;s:struct;u:union;t:type;' .
+                           \ 'v:variable;f:function'
+let g:go_disable_autoinstall = 0
 
-let g:tagbar_left=0
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts=1
 let g:airline#extensions#whitespace#enabled = 1
-let g:airline_theme='dark'
+"let g:airline_theme='dark'
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline_highlighting_cache = 1
@@ -33,9 +75,9 @@ let g:airline_highlighting_cache = 1
 "
 "" General properties
 let NERDTreeDirArrows=1
-let NERDTreeMinimalUI=1
+"let NERDTreeMinimalUI=1
 let NERDTreeIgnore=['\.o$', '\.pyc$', '\.php\~$']
-let NERDTreeWinSize = 35
+let NERDTreeWinSize = 65
 
 " Make sure that when NT root is changed, Vim's pwd is also updated
 let NERDTreeChDirMode = 2
@@ -305,12 +347,8 @@ let MRU_Max_Entries=30
 let g:molokai_original=1
 colorscheme molokai
 
-" go related changes
-let g:go_fmt_command = "goimports"
-" go language
-let s:tlist_def_go_settings = 'go;g:enum;s:struct;u:union;t:type;' .
-                           \ 'v:variable;f:function'
-let g:go_disable_autoinstall = 0
 
 " Open Tagbar brower
 nmap <C-d> :TagbarToggle<CR>
+let g:tagbar_left=0
+let g:tagbar_autoshowtag=1
