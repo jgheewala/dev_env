@@ -6,3 +6,4 @@ echo $CODE_BASE
 echo "setting go path"
 export GOPATH=$CODE_BASE
 echo $GOPATH
+export PATH=$PATH:$GOPATH/bin
