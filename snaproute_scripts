@@ -38,83 +38,7 @@ function switch_branch {
     done
 }
 
-function branch_status {
-    echo $SR_CODE_BASE
-    cd $SR_CODE_BASE
-    for dir in *; do
-        if [ $dir == "reltools" ]; then
-            echo $dir
-            cd $dir
-            git status
-            #git fetch upstream
-            #git checkout -b $1 upstream/$1
-        elif [ $dir == "snaproute" ]; then
-            cd $dir/src
-            for srcDir in */; do
-                is_asicd_dir=false
-                if [ $srcDir != "out/" ] && [ $srcDir != "vendors/" ] && [ $srcDir != "flexui/" ] && [ $srcDir != "opticd/" ]; then
-                    echo $SR_CODE_BASE/$dir/src/$srcDir
-                    cd $SR_CODE_BASE/$dir/src/$srcDir
-                    if [ $srcDir == "flexSdk/" ]; then
-                        git status 
-                    elif [ $srcDir == "asicd/" ]; then
-                        #revert_lfs_files
-                        is_asicd_dir=true
-                    fi
-                    #git fetch upstream
-                    #git checkout -b $1 upstream/$1
-                    git status
-                    if $is_asicd_dir; then
-                        #git lfs fetch
-                        #git lfs checkout
-                        is_asicd_dir=false
-                    fi
-                    echo
-                fi
-            done
-        fi
-        cd $SR_CODE_BASE
-    done
-}
 
-function branch_name {
-    echo $SR_CODE_BASE
-    cd $SR_CODE_BASE
-    for dir in *; do
-        if [ $dir == "reltools" ]; then
-            echo $dir
-            cd $dir
-            git branch
-            #git fetch upstream
-            #git checkout -b $1 upstream/$1
-        elif [ $dir == "snaproute" ]; then
-            cd $dir/src
-            for srcDir in */; do
-                is_asicd_dir=false
-                if [ $srcDir != "out/" ] && [ $srcDir != "vendors/" ] && [ $srcDir != "flexui/" ] && [ $srcDir != "opticd/" ]; then
-                    echo $SR_CODE_BASE/$dir/src/$srcDir
-                    cd $SR_CODE_BASE/$dir/src/$srcDir
-                    if [ $srcDir == "flexSdk/" ]; then
-                        git checkout . 
-                    elif [ $srcDir == "asicd/" ]; then
-                        #revert_lfs_files
-                        is_asicd_dir=true
-                    fi
-                    #git fetch upstream
-                    #git checkout -b $1 upstream/$1
-                    git branch
-                    if $is_asicd_dir; then
-                        #git lfs fetch
-                        #git lfs checkout
-                        is_asicd_dir=false
-                    fi
-                    echo
-                fi
-            done
-        fi
-        cd $SR_CODE_BASE
-    done
-}
 function chkout {
     echo $SR_CODE_BASE
     cd $SR_CODE_BASE
@@ -191,6 +115,214 @@ function repos_sync {
     done
 }
 
+function sync_on_mino {
+    git pull origin
+}
+
+function mino_branch_status {
+    git status
+}
+
+baseComp=(
+"chartpackager"
+"platforminitx8664"
+"pmd"
+)
+
+componentCharts=(
+"asicd"
+"intfd"
+"adjd"
+"ufibd"
+)
+
+#snapl docker helper functions
+function set_docker_login_info() {
+    export MY_DOCKER_USER=jgheewala
+    export MY_REPOSITORY=jgheewala
+    export MY_DOCKER_PASS=Snaproute_123
+}
+
+#if you want to set comp version..use this function and it will automatically set it.
+function set_docker_comp_version() {
+    if [ "$1" == "" ]; then
+        echo "specify component docker version, for e.g: l3_data_path_demo, v1_dev_11"
+        return
+    fi
+    include_chart=""
+    space_char=" "
+    termination="\""
+    pmd_bootstrap=pmd-bootstrap
+    for comp in "${baseComp[@]}"; do
+        echo "setting version for comp" $comp
+        export VERSION_$comp=$1
+    done
+    include_chart=$termination
+    for comp in "${componentCharts[@]}"; do
+        echo "setting version for comp" $comp
+        export VERSION_$comp=$1
+        include_chart=$include_chart$space_char$comp
+    done
+    include_chart=$include_chart$space_char$pmd_bootstrap$termination
+    echo "export chart version" $include_chart
+    export INCLUDE_CHARTS=$include_chart
+}
+
+minoOrgRepos=(
+"reltools"
+"asicd"
+"utils"
+"l2"
+"l3"
+"tools"
+"infra"
+"commondefs"
+"pi"
+)
+
+function sync_all_repos {
+    echo $SR_CODE_BASE
+    SRC=$SR_CODE_BASE/snaproute/src
+    for repo in "${minoOrgRepos[@]}"; do
+        echo "repo is:" $repo
+        if [ $repo == "reltools" ]; then
+            cd $SR_CODE_BASE/$repo
+            echo "current directory is" $SR_CODE_BASE/$repo
+            sync_on_mino
+        elif [ $repo == "asicd" ] || [ $repo == "utils" ] || [ $repo == "commondefs" ]; then
+            cd $SRC/$repo
+            echo "current directory is" $SRC/$repo
+            sync_on_mino
+        else
+            cd $SRC/$repo
+            for dir in *; do
+                export retVal=0
+                #echo "dir is" $dir
+                cd $dir; export retVal=$?
+                echo ""
+                echo "current directory is" $SRC/$repo/$dir
+                sync_on_mino
+                
+                if [ $retVal == 0 ]; then
+                    cd - > /dev/null
+                fi
+            done
+        fi
+        cd - > /dev/null
+        echo
+    done
+    cd $SRC
+}
+
+function merge_mino_branch {
+    echo $SR_CODE_BASE
+    SRC=$SR_CODE_BASE/snaproute/src
+    if [ "$1" == "" ]; then
+        echo "specify branch you want to sync from"
+    else
+        for repo in "${minoOrgRepos[@]}"; do
+            echo "repo is:" $repo
+            if [ $repo == "reltools" ]; then
+                cd $SR_CODE_BASE/$repo
+                echo "current directory is" $SR_CODE_BASE/$repo
+                git merge origin/$1
+            elif [ $repo == "asicd" ] || [ $repo == "utils" ] || [ $repo == "commondefs" ]; then
+                cd $SRC/$repo
+                echo "current directory is" $SRC/$repo
+                git merge origin/$1
+            else
+                cd $SRC/$repo
+                for dir in *; do
+                    export retVal=0
+                    #echo "dir is" $dir
+                    cd $dir; export retVal=$?
+                    echo ""
+                    echo "current directory is" $SRC/$repo/$dir
+                    git merge origin/$1
+                    
+                    if [ $retVal == 0 ]; then
+                        cd - > /dev/null
+                    fi
+                done
+            fi
+            cd - > /dev/null
+            echo
+        done
+    fi
+    cd $SRC
+}
+
+function branch_name {
+    echo $SR_CODE_BASE
+    SRC=$SR_CODE_BASE/snaproute/src
+    for repo in "${minoOrgRepos[@]}"; do
+        echo "repo is:" $repo
+        if [ $repo == "reltools" ]; then
+            cd $SR_CODE_BASE/$repo
+            echo "current directory is" $SR_CODE_BASE/$repo
+            git branch
+        elif [ $repo == "asicd" ] || [ $repo == "utils" ] || [ $repo == "commondefs" ]; then
+            cd $SRC/$repo
+            echo "current directory is" $SRC/$repo
+            git branch
+        else
+            cd $SRC/$repo
+            for dir in *; do
+                export retVal=0
+                #echo "dir is" $dir
+                cd $dir; export retVal=$?
+                echo ""
+                echo "current directory is" $SRC/$repo/$dir
+                git branch
+                
+                if [ $retVal == 0 ]; then
+                    cd - > /dev/null
+                fi
+            done
+        fi
+        cd - > /dev/null
+        echo
+    done
+    cd $SRC
+}
+
+
+function branch_status {
+    echo $SR_CODE_BASE
+    SRC=$SR_CODE_BASE/snaproute/src
+    for repo in "${minoOrgRepos[@]}"; do
+        echo "repo is:" $repo
+        if [ $repo == "reltools" ]; then
+            cd $SR_CODE_BASE/$repo
+            echo ""
+            echo "current directory is" $SR_CODE_BASE/$repo
+            mino_branch_status
+        elif [ $repo == "asicd" ] || [ $repo == "utils" ] || [ $repo == "commondefs" ]; then
+            cd $SRC/$repo
+            echo ""
+            echo "current directory is" $SRC/$repo
+            mino_branch_status
+        else
+            cd $SRC/$repo
+            for dir in *; do
+                export retVal=0
+                #echo "dir is" $dir
+                cd $dir; export retVal=$?
+                echo ""
+                echo "current directory is" $SRC/$repo/$dir
+                mino_branch_status
+                
+                if [ $retVal == 0 ]; then
+                    cd - > /dev/null
+                fi
+            done
+        fi
+        cd - > /dev/null
+        echo
+    done
+    cd $SRC
+}
+
 function prepare_ws() {
     cd $SR_CODE_BASE
     echo "Syncing worspace to HEAD"
@@ -234,11 +366,11 @@ function build_all {
         make clean_all; make BUILD_TARGET=$1
     fi
     echo "Done Clean Build of WorkSpace"
-    #cd $SR_CODE_BASE/snaproute/src
-    #echo "Building cscope"
-    #~/scripts/cscope_build
-    #echo "Building TAGS"
-    #~/scripts/tags_build
+    cd $SR_CODE_BASE
+    echo "Building cscope"
+    ~/scripts/cscope_build
+    echo "Building TAGS"
+    ftags
 }
 
 function mr_sync {
@@ -367,3 +499,9 @@ alias set_git_env='source ~/scripts/env_setup'
 alias cli_dir='cd $SR_CODE_BASE/snaproute/src/apps/cli2'
 alias sr_utils='cd $SR_CODE_BASE/snaproute/src/utils'
 alias sr_fp='cd $SR_CODE_BASE/snaproute/src/flexpath'
+alias sr_pi='cd $SR_CODE_BASE/snaproute/src/pi/'
+alias intfd='cd $SR_CODE_BASE/snaproute/src/pi/intf'
+alias ufibd='cd $SR_CODE_BASE/snaproute/src/pi/ufib'
+alias adjd='cd $SR_CODE_BASE/snaproute/src/pi/adj'
+alias build_gotags='source ~/scripts/gotags_build'
+alias c_csope='source ~/scripts/cur_dir_scope'
