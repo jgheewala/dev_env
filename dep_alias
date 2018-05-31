@@ -1,0 +1,108 @@
+#!/bin/bash
+
+alias tags='$SR_CODE_BASE/tags'
+alias asicd='cd $SRC_DIR/asicd'
+alias intfd='cd $SRC_DIR/intf'
+alias ufibd='cd $SRC_DIR/ufib'
+alias utils='cd $SRC_DIR/utils'
+
+pipdComps=(
+"asicd"
+"intf"
+"adj"
+"ufib"
+)
+
+pkgComps=(
+"asicdIntfPkg"
+"asicdUfibPkg"
+"adjPkg"
+"intfPkg"
+"ufibPkg"
+)
+
+function branch_status {
+    echo $SRC_DIR
+    cd $SRC_DIR
+    for dir in *; do
+        cd $dir
+        echo $dir
+        git status
+        cd -
+        #cd $SR_CODE_BASE
+    done
+    cd $SRC_DIR
+}
+
+function branch_name {
+    echo $SRC_DIR
+    cd $SRC_DIR
+    for dir in *; do
+        cd $dir
+        echo ""
+        echo $dir
+        git branch -v
+        echo ""
+        cd -
+        #cd $SR_CODE_BASE
+    done
+    cd $SRC_DIR
+}
+
+function sync_all_repos {
+    echo $SRC_DIR
+    cd $SRC_DIR
+    for dir in *; do
+        cd $dir
+        echo ""
+        echo $dir
+        git pull origin
+        echo ""
+        cd -
+    done
+    cd $SRC_DIR
+}
+
+function dep_ensure_pi_pd {
+    echo $SRC_DIR
+    cd $SRC_DIR
+    for comp in "${pipdComps[@]}"; do
+        echo "updating dep version for" $comp
+        cd $comp
+        echo ""
+        echo $PWD
+        if [ "$1" == ""  ]; then
+            dep ensure -v
+        else
+            dep ensure -v -$1
+        fi
+        echo ""
+        cd -
+    done
+    cd $SRC_DIR
+}
+
+function pi_pd_make {
+    echo $SRC_DIR
+    cd $SRC_DIR
+    for comp in "${pipdComps[@]}"; do
+        echo "doing make for" $comp
+        cd $comp
+        echo ""
+        echo $PWD
+	retVal=$?
+        if [ "$1" == ""  ]; then
+            make
+        else
+            make $1
+        fi
+	if [ $retVal -ne 0 ]; then
+	    echo "Error"
+	    return
+	fi
+        echo ""
+        cd -
+    done
+    cd $SRC_DIR
+}
+

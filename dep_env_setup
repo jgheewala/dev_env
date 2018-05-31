@@ -1,0 +1,13 @@
+#!/bin/bash
+
+echo "setting workspace gopath"
+export GOPATH=$(pwd)
+echo $GOPATH 
+echo "setting src path"
+export SRC_DIR=$GOPATH/src/github.com/snaproute-mino
+echo $SRC_DIR
+
+if [ -f $HOME/dev_env/dep_alias ]; then
+    . $HOME/dev_env/dep_alias
+fi
+
