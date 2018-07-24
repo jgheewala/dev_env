@@ -5,12 +5,16 @@ alias asicd='cd $SRC_DIR/asicd'
 alias intfd='cd $SRC_DIR/intf'
 alias ufibd='cd $SRC_DIR/ufib'
 alias utils='cd $SRC_DIR/utils'
+alias lldp='cd $SRC_DIR/lldp'
 
 pipdComps=(
 "asicd"
 "intf"
 "adj"
 "ufib"
+"lldp"
+"pm"
+"snapl-tools"
 )
 
 pkgComps=(
@@ -20,6 +24,52 @@ pkgComps=(
 "intfPkg"
 "ufibPkg"
 )
+
+baseComp=(
+"chartpackager"
+"platforminitx8664"
+"pmd"
+)
+
+componentCharts=(
+"asicd"
+"intfd"
+"adjd"
+"ufibd"
+"lldpd"
+)
+
+#snapl docker helper functions
+function set_docker_info_reg() {
+    export MY_DOCKER_USER=jgheewala
+    export MY_REPOSITORY=jgheewala
+    export MY_DOCKER_PASS=Snaproute_123
+}
+
+#if you want to set comp version..use this function and it will automatically set it.
+function chart_version() {
+    if [ "$1" == "" ]; then
+        echo "specify component docker version, for e.g: l3_data_path_demo, v1_dev_11"
+        return
+    fi
+    include_chart=""
+    space_char=" "
+    termination="\""
+    pmd_bootstrap=pmd-bootstrap
+    for comp in "${baseComp[@]}"; do
+        echo "setting version for comp" $comp
+        export VERSION_$comp=$1
+    done
+    include_chart=$termination
+    for comp in "${componentCharts[@]}"; do
+        echo "setting version for comp" $comp
+        export VERSION_$comp=$1
+        include_chart=$include_chart$space_char$comp
+    done
+    include_chart=$include_chart$space_char$pmd_bootstrap$termination
+    echo "export chart version" $include_chart
+    export INCLUDE_CHARTS=$include_chart
+}
 
 function branch_status {
     echo $SRC_DIR
@@ -56,7 +106,21 @@ function sync_all_repos {
         cd $dir
         echo ""
         echo $dir
-        git pull origin
+        git pull origin master
+        echo ""
+        cd -
+    done
+    cd $SRC_DIR
+}
+
+function remove_vendor {
+    echo $SRC_DIR
+    cd $SRC_DIR
+    for dir in *; do
+        cd $dir
+        echo ""
+        echo $dir
+        rm -rf vendor
         echo ""
         cd -
     done

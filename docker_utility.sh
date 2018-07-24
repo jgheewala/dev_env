@@ -50,3 +50,16 @@ function fs_container_running {
 function fs_clean_logs {
     echo /dev/null > /mnt/data/flexswitch/$1/logs/$1.log
 }
+
+function restart_flexswitch {
+	./write_erash
+	rm -rf /mnt/data/flexswitch/*
+	snapl-load-charts
+}
+
+function fresh_start {
+	docker stop $(docker ps -a -q)
+	docker rm $(docker ps -a -q)
+	docker rmi $(docker images -q)
+	restart_flexswitch
+}
